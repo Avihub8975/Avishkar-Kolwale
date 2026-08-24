@@ -1,0 +1,311 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Student Mark Sheet</title>
+
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            background: #f2f4f7;
+            margin: 0;
+            padding: 30px;
+        }
+
+        .container {
+            max-width: 700px;
+            margin: auto;
+            background: white;
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.15);
+        }
+
+        h1 {
+            text-align: center;
+            margin-bottom: 25px;
+        }
+
+        label {
+            font-weight: bold;
+            display: block;
+            margin-top: 12px;
+        }
+
+        input {
+            width: 100%;
+            padding: 10px;
+            margin-top: 5px;
+            border: 1px solid #ccc;
+            border-radius: 6px;
+            font-size: 16px;
+        }
+
+        button {
+            width: 100%;
+            padding: 12px;
+            margin-top: 20px;
+            border: none;
+            border-radius: 6px;
+            background: #007bff;
+            color: white;
+            font-size: 18px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background: #0056b3;
+        }
+
+        #result {
+            display: none;
+            margin-top: 25px;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 15px;
+        }
+
+        th, td {
+            border: 1px solid #ccc;
+            padding: 10px;
+            text-align: center;
+        }
+
+        th {
+            background: #007bff;
+            color: white;
+        }
+
+        .pass {
+            color: green;
+            font-weight: bold;
+        }
+
+        .fail {
+            color: red;
+            font-weight: bold;
+        }
+
+        .print-btn {
+            background: #28a745;
+        }
+
+        .print-btn:hover {
+            background: #1e7e34;
+        }
+
+        @media print {
+            body {
+                background: white;
+            }
+
+            .container {
+                box-shadow: none;
+            }
+
+            form, button {
+                display: none;
+            }
+
+            #result {
+                display: block;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+<div class="container">
+
+    <h1>🎓 Student Mark Sheet</h1>
+
+    <form id="marksForm">
+
+        <label>Student Name</label>
+        <input type="text" id="studentName" placeholder="Enter student name" required>
+
+        <label>Roll Number</label>
+        <input type="text" id="rollNumber" placeholder="Enter roll number" required>
+
+        <label>Maths Marks</label>
+        <input type="number" id="maths" min="0" max="100" required>
+
+        <label>Physics Marks</label>
+        <input type="number" id="physics" min="0" max="100" required>
+
+        <label>Chemistry Marks</label>
+        <input type="number" id="chemistry" min="0" max="100" required>
+
+        <label>English Marks</label>
+        <input type="number" id="english" min="0" max="100" required>
+
+        <label>Computer Marks</label>
+        <input type="number" id="computer" min="0" max="100" required>
+
+        <button type="submit">Calculate Mark Sheet</button>
+
+    </form>
+
+    <div id="result">
+
+        <h2>Mark Sheet</h2>
+
+        <p><b>Student Name:</b> <span id="showName"></span></p>
+        <p><b>Roll Number:</b> <span id="showRoll"></span></p>
+
+        <table>
+            <tr>
+                <th>Subject</th>
+                <th>Marks</th>
+            </tr>
+
+            <tr>
+                <td>Maths</td>
+                <td id="showMaths"></td>
+            </tr>
+
+            <tr>
+                <td>Physics</td>
+                <td id="showPhysics"></td>
+            </tr>
+
+            <tr>
+                <td>Chemistry</td>
+                <td id="showChemistry"></td>
+            </tr>
+
+            <tr>
+                <td>English</td>
+                <td id="showEnglish"></td>
+            </tr>
+
+            <tr>
+                <td>Computer</td>
+                <td id="showComputer"></td>
+            </tr>
+
+            <tr>
+                <th>Total</th>
+                <th id="total"></th>
+            </tr>
+
+            <tr>
+                <th>Percentage</th>
+                <th id="percentage"></th>
+            </tr>
+
+            <tr>
+                <th>Grade</th>
+                <th id="grade"></th>
+            </tr>
+
+            <tr>
+                <th>Result</th>
+                <th id="resultText"></th>
+            </tr>
+        </table>
+
+        <button class="print-btn" onclick="window.print()">
+            🖨️ Print Mark Sheet
+        </button>
+
+    </div>
+
+</div>
+
+<script>
+
+document.getElementById("marksForm").addEventListener("submit", function(event) {
+
+    event.preventDefault();
+
+    let name = document.getElementById("studentName").value;
+    let roll = document.getElementById("rollNumber").value;
+
+    let maths = Number(document.getElementById("maths").value);
+    let physics = Number(document.getElementById("physics").value);
+    let chemistry = Number(document.getElementById("chemistry").value);
+    let english = Number(document.getElementById("english").value);
+    let computer = Number(document.getElementById("computer").value);
+
+    let total = maths + physics + chemistry + english + computer;
+    let percentage = total / 5;
+
+    let grade;
+
+    if (percentage >= 90) {
+        grade = "A+";
+    }
+    else if (percentage >= 80) {
+        grade = "A";
+    }
+    else if (percentage >= 70) {
+        grade = "B";
+    }
+    else if (percentage >= 60) {
+        grade = "C";
+    }
+    else if (percentage >= 50) {
+        grade = "D";
+    }
+    else if (percentage >= 35) {
+        grade = "E";
+    }
+    else {
+        grade = "F";
+    }
+
+    let result;
+
+    if (
+        maths >= 35 &&
+        physics >= 35 &&
+        chemistry >= 35 &&
+        english >= 35 &&
+        computer >= 35
+    ) {
+        result = "PASS";
+    }
+    else {
+        result = "FAIL";
+    }
+
+    document.getElementById("showName").textContent = name;
+    document.getElementById("showRoll").textContent = roll;
+
+    document.getElementById("showMaths").textContent = maths;
+    document.getElementById("showPhysics").textContent = physics;
+    document.getElementById("showChemistry").textContent = chemistry;
+    document.getElementById("showEnglish").textContent = english;
+    document.getElementById("showComputer").textContent = computer;
+
+    document.getElementById("total").textContent = total + " / 500";
+    document.getElementById("percentage").textContent = percentage.toFixed(2) + "%";
+    document.getElementById("grade").textContent = grade;
+
+    let resultElement = document.getElementById("resultText");
+    resultElement.textContent = result;
+
+    if (result === "PASS") {
+        resultElement.className = "pass";
+    } else {
+        resultElement.className = "fail";
+    }
+
+    document.getElementById("result").style.display = "block";
+
+});
+
+</script>
+
+</body>
+</html>
